@@ -28,7 +28,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import '../../app/globals.css'
-import Calendar from '../../components/Calendar'
+import Calendar from '../../components/dashboard/Calendar'
+import React from 'react'
 
 const navigation = [
   { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },

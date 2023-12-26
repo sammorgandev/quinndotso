@@ -1,11 +1,12 @@
 import Image from 'next/image'
-import Hero from "../components/marketing/Hero"
-import Features from "../components/marketing/Features"
+import Hero from "../components/Marketing/Hero"
+import Features from "../components/Marketing/Features"
 import Pricing from "../components/marketing/Pricing"
-import BlogHighlights from "../components/marketing/BlogHighlights"
+import BlogHighlights from "../components/Marketing/BlogHighlights"
 import FAQ from "../components/marketing/FAQ"
-import CTA from "../components/marketing/CTA"
-import Footer from "../components/marketing/Footer"
+import CTA from "../components/Marketing/CTA"
+import Footer from "../components/Marketing/Footer"
+import React from 'react'
 
 export default function Home() {
   return (

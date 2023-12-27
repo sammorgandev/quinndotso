@@ -36,6 +36,8 @@ import React from 'react'
 import Users from '../../components/dashboard/Users'
 import StatRow from '../../components/dashboard/StatRow'
 import Files from '../../components/dashboard/Files'
+import Assistant from '../../components/dashboard/Assistant'
+
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
   { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
@@ -404,8 +406,8 @@ export default function Example() {
             {currentView === 'Dashboard' && <StatRow />}
             {currentView === 'Calendar' && <Calendar />}
             {currentView === 'Files' && <Files />}
-
-    {currentView === 'Students' && <Users />}
+            {currentView === 'Assistant' && <Assistant />}
+            {currentView === 'Students' && <Users />}
     </div>
               </div>
           </main>

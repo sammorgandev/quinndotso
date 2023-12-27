@@ -12,8 +12,10 @@
   }
   ```
 */
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
+import { useRouter } from 'next/router';
+
 import {
   Bars3Icon,
   BellIcon,
@@ -25,20 +27,15 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  ChatBubbleOvalLeftIcon
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import '../../app/globals.css'
 import Calendar from '../../components/dashboard/Calendar'
 import React from 'react'
-
-const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-]
+import Users from '../../components/dashboard/Users'
+import StatRow from '../../components/dashboard/StatRow'
+import Files from '../../components/dashboard/Files'
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
   { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
@@ -56,16 +53,47 @@ function classNames(...classes: string[]) {
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  const router = useRouter();
+
+  // Function to capitalize the first letter
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  
+  // Get the initial view from the URL parameter
+  const getInitialView = () => {
+    if (router.isReady) {
+      const page = router.query.p;
+      return page && typeof page === 'string' ? capitalizeFirstLetter(page) : 'Dashboard';
+    }
+    return 'Dashboard';
+  };
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [currentView, setCurrentView] = useState(getInitialView());
+  useEffect(() => {
+    if (router.isReady) {
+      const page = router.query.p;
+      if (page && typeof page === 'string') {
+        setCurrentView(capitalizeFirstLetter(page));
+      }
+      setIsLoading(false);
+    }
+  }, [router.isReady, router.query]);
+
+  const navigation = [
+    { name: 'Dashboard', href: '?p=dashboard', icon: HomeIcon },
+    { name: 'Students', href: '?p=students', icon: UsersIcon },
+    { name: 'Calendar', href: '?p=calendar', icon: CalendarIcon },
+    { name: 'Files', href: '?p=files', icon: DocumentDuplicateIcon },
+    { name: 'Assistant', href: '?p=assistant', icon: ChatBubbleOvalLeftIcon },
+  ]
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
+    
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
@@ -125,8 +153,9 @@ export default function Example() {
                               <li key={item.name}>
                                 <a
                                   href={item.href}
+                                  
                                   className={classNames(
-                                    item.current
+                                    currentView === item.name
                                       ? 'bg-gray-50 text-indigo-600'
                                       : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -134,7 +163,7 @@ export default function Example() {
                                 >
                                   <item.icon
                                     className={classNames(
-                                      item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                      currentView === item.name ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                                       'h-6 w-6 shrink-0'
                                     )}
                                     aria-hidden="true"
@@ -215,8 +244,9 @@ export default function Example() {
                       <li key={item.name}>
                         <a
                           href={item.href}
+                      
                           className={classNames(
-                            item.current
+                            currentView === item.name
                               ? 'bg-gray-50 text-indigo-600'
                               : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -224,7 +254,7 @@ export default function Example() {
                         >
                           <item.icon
                             className={classNames(
-                              item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                              currentView === item.name ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
                               'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
@@ -242,6 +272,7 @@ export default function Example() {
                       <li key={team.name}>
                         <a
                           href={team.href}
+                          
                           className={classNames(
                             team.current
                               ? 'bg-gray-50 text-indigo-600'
@@ -367,7 +398,16 @@ export default function Example() {
           </div>
 
           <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8"><Calendar /></div>
+            <div className="px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col gap-10">
+            {currentView === 'Dashboard' && <StatRow />}
+            {currentView === 'Dashboard' && <StatRow />}
+            {currentView === 'Calendar' && <Calendar />}
+            {currentView === 'Files' && <Files />}
+
+    {currentView === 'Students' && <Users />}
+    </div>
+              </div>
           </main>
         </div>
       </div>

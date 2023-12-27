@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router';
@@ -176,8 +162,8 @@ export default function Example() {
                             ))}
                           </ul>
                         </li>
-                        <li>
-                          <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                      {/* <li>
+                           <div className="text-xs font-semibold leading-6 text-gray-400">Integrations</div>
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
@@ -202,10 +188,10 @@ export default function Example() {
                                   </span>
                                   <span className="truncate">{team.name}</span>
                                 </a>
-                              </li>
+                                    </li> 
                             ))}
                           </ul>
-                        </li>
+                                    </li>*/}
                         <li className="mt-auto">
                           <a
                             href="#"
@@ -267,7 +253,7 @@ export default function Example() {
                     ))}
                   </ul>
                 </li>
-                <li>
+               {/*  <li>
                   <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
@@ -297,7 +283,7 @@ export default function Example() {
                       </li>
                     ))}
                   </ul>
-                </li>
+                            </li> */}
                 <li className="mt-auto">
                   <a
                     href="#"
